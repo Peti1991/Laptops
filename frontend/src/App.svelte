@@ -53,7 +53,7 @@
 
 <title>Laptops</title>
 
-<header class=" flex flex-row justify-center">
+<header class=" flex flex-row justify-center gap-8">
   <input type="text" bind:value={searchValue}>
   <button class=" btn btn-primary" on:click={sort}>Sort</button>
 </header>
@@ -62,7 +62,7 @@
   {#if isLoading}
     <LoadingMask />
   {/if}
-  <div class=" flex flex-row gap-10">
+  <div class=" flex flex-col gap-10">
     {#each searchedLaptops as laptop}
       <Laptop laptop={laptop} />
     {/each}
