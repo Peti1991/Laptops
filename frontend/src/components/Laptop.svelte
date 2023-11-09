@@ -1,15 +1,7 @@
 <script lang="ts">
-    import z from "zod"
-    
-    const LaptopSchema = z.object({
-    brand: z.string(),
-    name: z.string(),
-    weight: z.number()
-    })
+    import { type LaptopType } from "../api/index";
 
-    type Laptop = z.infer<typeof LaptopSchema>
-
-    export let laptop:Laptop
+    export let laptop:LaptopType
     let isShowingMore = false
 
     const showMore = () => {

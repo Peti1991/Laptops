@@ -1,41 +1,28 @@
 <script  lang="ts">
   import { onMount } from 'svelte';
-  import { makeServer } from './api'
-  makeServer({ environment: 'development' })
-  import axios from "axios"
-  import z from "zod"
 
+  import { getLaptops } from './api/index';
   import LoadingMask from './components/LoadingMask.svelte';
   import Laptop from './components/Laptop.svelte'
-
-  const LaptopSchema = z.object({
-    brand: z.string(),
-    name: z.string(),
-    weight: z.number()
-  })
-  
-  type Laptop = z.infer<typeof LaptopSchema>
+  import { type LaptopType } from './api/index';
   
 
   let searchValue = ""
   let isLoading = true
   let isSorted = false
 
-  let laptops: Laptop[] = []
-  let searchedLaptops: Laptop[] = []
+  let laptops: LaptopType[] = []
+  let searchedLaptops: LaptopType[] = []
   $: searchedLaptops = searchValue ? laptops.filter( laptop => laptop.name.includes(searchValue)) : laptops
 
   onMount (async () => {
     isLoading = true
-    const response = await axios.get("https://demoapi.com/api/laptop")
+    const response = await getLaptops()
     isLoading = false
 
-    /* const responseResult = LaptopSchema.safeParse(response)
-    if (!responseResult.success) {
-      laptops = []
-    }else {
-      laptops = responseResult.data
-    } */
+    if (!response.success) {
+      return alert(`Could not load messages (${response.status})`)
+    }
 
     laptops = response.data
   })
